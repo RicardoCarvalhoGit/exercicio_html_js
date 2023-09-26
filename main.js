@@ -1,35 +1,40 @@
-const form = document.getElementById('form');
-const primeiroNumero = document.getElementById('numeroA');
-const segundoNumero = document.getElementById('numeroB');
+const form = document.getElementById('form-contato')
+const nomes = []
+const numeros = []
+
+let linhas = '';
 
 form.addEventListener('submit', function(e) {
-    e.preventDefault();
+    e.preventDefault ();
 
-    const mensagemDeSucesso =`O primeiro número: <b>${primeiroNumero.value}</b> é menor do que o segundo número: <b>${segundoNumero.value}</b>`;
-
-    if(primeiroNumero.value < segundoNumero.value) {
-        const containerMensagemSucesso = document.querySelector('.success-message');
-        containerMensagemSucesso.innerHTML = mensagemDeSucesso;
-        containerMensagemSucesso.style.display = 'block';
-
-        primeiroNumero.value = '';
-        segundoNumero.value = '';
-
-    } else {
-        document.querySelector('.error-message').style.display = 'block'
-        nomeBeneficiario.style.border = '2px solid red'
-    }
-})
-
-segundoNumero.addEventListener('keyup', function(e){
-    console.log(e.target.value);
-
-    if(primeiroNumero.value > segundoNumero.value) {
-        segundoNumero.classList.add ('error')
-        document.querySelector('.error-message').style.display = 'block'
-    }
-    else {
-        segundoNumero.classList.remove ('error')
-        document.querySelector('.error-message').style.display = 'none'
-    }
+    adicionaLinha();
+    atualizaTabela();
 });
+
+function adicionaLinha() {
+    const inputNomeContato = document.getElementById('nome-contato');
+    const inputNumeroTelefone = document.getElementById('numero-telefone');
+
+    if (numeros.includes(inputNumeroTelefone.value)) {
+        alert(`O número: ${inputNumeroTelefone.value} já foi adicionado aos contatos`);
+    } else {
+
+    nomes.push(inputNomeContato.value);
+    numeros.push(inputNumeroTelefone.value);
+
+    let linha = '<tr>';
+    linha += `<td>${inputNomeContato.value}</td>`;
+    linha += `<td>${inputNumeroTelefone.value}</td>`;
+    linha += `</tr>`;
+
+    linhas += linha;
+    }
+
+    inputNomeContato.value = '';
+    inputNumeroTelefone.value = '';
+}
+
+function atualizaTabela() {
+    const corpoTabela = document.querySelector('tbody');
+    corpoTabela.innerHTML = linhas;
+}
